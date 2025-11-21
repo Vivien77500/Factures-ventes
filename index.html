@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="fr">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demande de facture - Acte authentique</title>
+  <script src="/_sdk/data_sdk.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+ <body class="min-h-full bg-gradient-to-br from-slate-50 to-blue-50 p-6">
+  <div class="max-w-4xl mx-auto"><!-- Header -->
+   <div class="bg-white rounded-lg shadow-lg p-8 mb-6">
+    <h1 id="form-title" class="text-3xl font-bold text-slate-800 mb-4">Demande de facture de vente pour l'acte authentique</h1>
+    <div class="bg-blue-50 border-l-4 border-blue-600 p-4 mb-6">
+     <p class="text-sm text-slate-700 leading-relaxed">Dans le cadre de la préparation de la signature de l'acte authentique relatif à votre prochaine transaction, il est impératif de compléter avec exactitude l'intégralité du formulaire ci-dessous.</p>
+    </div>
+    <div class="bg-amber-50 border-l-4 border-amber-500 p-4">
+     <p class="text-sm font-semibold text-slate-800 mb-2">⚠����� Informations importantes :</p>
+     <ul class="text-sm text-slate-700 space-y-1 ml-4 list-disc">
+      <li>Après soumission, vous recevrez la facture notaire officielle et le RIB signé de <span id="company-name">MEILLEUR CONSEIL IMMO</span></li>
+      <li>Ces documents doivent être remis obligatoirement au notaire lors de l'acte authentique</li>
+      <li>Aucun autre RIB ne doit être utilisé</li>
+      <li>Cette procédure assure la sécurité des transactions et prévient toute tentative de fraude</li>
+     </ul>
+    </div>
+   </div><!-- Form -->
+   <div class="bg-white rounded-lg shadow-lg p-8">
+    <form id="demande-form" class="space-y-6">
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-6"><!-- 1. Nom et prénom du mandataire -->
+      <div class="md:col-span-2"><label for="nom-mandataire" class="block text-sm font-semibold text-slate-700 mb-2"> 1. Nom et prénom du mandataire * </label> <input type="text" id="nom-mandataire" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" placeholder="Nom et prénom complets">
+      </div><!-- 2. Date de signature -->
+      <div><label for="date-signature" class="block text-sm font-semibold text-slate-700 mb-2"> 2. Date de signature de l'acte authentique * </label> <input type="date" id="date-signature" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all">
+      </div><!-- 3. Honoraires TTC -->
+      <div><label for="honoraires-ttc" class="block text-sm font-semibold text-slate-700 mb-2"> 3. Honoraires TTC * </label> <input type="text" id="honoraires-ttc" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" placeholder="Ex: 15 000 €">
+      </div><!-- 4. Charge -->
+      <div class="md:col-span-2"><label class="block text-sm font-semibold text-slate-700 mb-2"> 4. Charge * </label>
+       <div class="flex gap-6"><label class="flex items-center cursor-pointer"> <input type="radio" name="charge" value="Acquéreur" required class="w-5 h-5 text-blue-600 border-slate-300 focus:ring-blue-500"> <span class="ml-2 text-slate-700">Acquéreur</span> </label> <label class="flex items-center cursor-pointer"> <input type="radio" name="charge" value="Vendeur" class="w-5 h-5 text-blue-600 border-slate-300 focus:ring-blue-500"> <span class="ml-2 text-slate-700">Vendeur</span> </label>
+       </div>
+      </div><!-- 5. Désignation et adresse du bien -->
+      <div class="md:col-span-2"><label for="designation-bien" class="block text-sm font-semibold text-slate-700 mb-2"> 5. Désignation et adresse du bien * </label> <textarea id="designation-bien" required rows="3" class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" placeholder="Adresse complète et description du bien"></textarea>
+      </div><!-- 6. Numéro du mandat -->
+      <div><label for="numero-mandat" class="block text-sm font-semibold text-slate-700 mb-2"> 6. Numéro du mandat * </label> <input type="text" id="numero-mandat" required class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" placeholder="Ex: M-2024-001">
+      </div><!-- 7. Nom et adresse des vendeurs -->
+      <div class="md:col-span-2"><label for="nom-vendeurs" class="block text-sm font-semibold text-slate-700 mb-2"> 7. Nom et adresse des vendeurs * </label> <textarea id="nom-vendeurs" required rows="3" class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" placeholder="Nom complet et adresse"></textarea>
+      </div><!-- 8. Nom et adresse des acquéreurs -->
+      <div class="md:col-span-2"><label for="nom-acquereurs" class="block text-sm font-semibold text-slate-700 mb-2"> 8. Nom et adresse des acquéreurs * </label> <textarea id="nom-acquereurs" required rows="3" class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" placeholder="Nom complet et adresse"></textarea>
+      </div><!-- 9. Nom et adresse mail du notaire -->
+      <div class="md:col-span-2"><label for="nom-notaire" class="block text-sm font-semibold text-slate-700 mb-2"> 9. Nom et adresse mail du notaire rédacteur de l'acte authentique * </label> <textarea id="nom-notaire" required rows="2" class="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" placeholder="Nom du notaire et adresse email"></textarea>
+      </div>
+     </div><!-- Submit Button -->
+     <div class="pt-6 border-t border-slate-200">
+      <div class="bg-slate-50 rounded-lg p-4 mb-4">
+       <p class="text-sm text-slate-700 text-center">📧 À transmettre par mail : <span id="email-label" class="font-semibold text-blue-600">admin@meilleurconseil-immo.com</span></p>
+      </div><button type="submit" id="submit-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-lg transition-all shadow-lg hover:shadow-xl"> Soumettre la demande </button>
+      <div id="success-message" class="hidden mt-4 bg-green-50 border-l-4 border-green-500 p-4 rounded">
+       <p class="text-green-800 font-semibold">✓ Demande soumise avec succès !</p>
+       <p class="text-sm text-green-700 mt-1">Votre demande a été enregistrée. Vous recevrez les documents nécessaires par email.</p>
+      </div>
+      <div id="error-message" class="hidden mt-4 bg-red-50 border-l-4 border-red-500 p-4 rounded">
+       <p class="text-red-800 font-semibold">⚠ Erreur lors de la soumission</p>
+       <p class="text-sm text-red-700 mt-1" id="error-text">Une erreur s'est produite. Veuillez réessayer.</p>
+      </div>
+     </div>
+    </form>
+   </div><!-- Submissions List -->
+   <div class="mt-6 bg-white rounded-lg shadow-lg p-8">
+    <h2 class="text-2xl font-bold text-slate-800 mb-4">Demandes enregistrées</h2>
+    <div id="submissions-list" class="space-y-4">
+     <p class="text-slate-500 text-center py-8">Aucune demande enregistrée</p>
+    </div>
+   </div>
+  </div>
+  <script>
+        const defaultConfig = {
+            form_title: "Demande de facture de vente pour l'acte authentique",
+            company_name: "MEILLEUR CONSEIL IMMO",
+            email_label: "admin@meilleurconseil-immo.com",
+            background_color: "#f8fafc",
+            surface_color: "#ffffff",
+            text_color: "#1e293b",
+            primary_action_color: "#2563eb",
+            secondary_action_color: "#64748b",
+            font_family: "Segoe UI",
+            font_size: 16
+        };
+
+        let config = { ...defaultConfig };
+        let currentRecordCount = 0;
+
+        const dataHandler = {
+            onDataChanged(data) {
+                currentRecordCount = data.length;
+                const listContainer = document.getElementById('submissions-list');
+                
+                if (data.length === 0) {
+                    listContainer.innerHTML = '<p class="text-slate-500 text-center py-8">Aucune demande enregistrée</p>';
+                    return;
+                }
+
+                const existingItems = new Map(
+                    [...listContainer.children].map(el => [el.dataset.itemId, el])
+                );
+
+                data.forEach(item => {
+                    if (existingItems.has(item.__backendId)) {
+                        existingItems.delete(item.__backendId);
+                    } else {
+                        const itemElement = createSubmissionElement(item);
+                        listContainer.appendChild(itemElement);
+                    }
+                });
+
+                existingItems.forEach(el => el.remove());
+            }
+        };
+
+        function createSubmissionElement(item) {
+            const div = document.createElement('div');
+            div.dataset.itemId = item.__backendId;
+            div.className = 'border-2 border-slate-200 rounded-lg p-4 hover:border-blue-300 transition-all';
+            div.style.backgroundColor = config.surface_color || defaultConfig.surface_color;
+            div.style.borderColor = '#e2e8f0';
+            
+            const date = new Date(item.createdAt);
+            const formattedDate = date.toLocaleDateString('fr-FR', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            div.innerHTML = `
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <h3 class="font-semibold text-lg" style="color: ${config.text_color || defaultConfig.text_color}">${item.nom_mandataire}</h3>
+                        <p class="text-sm" style="color: ${config.secondary_action_color || defaultConfig.secondary_action_color}">Soumis le ${formattedDate}</p>
+                    </div>
+                    <button
+                        onclick="deleteSubmission('${item.__backendId}')"
+                        class="text-red-600 hover:text-red-700 hover:bg-red-50 px-3 py-1 rounded transition-all"
+                    >
+                        Supprimer
+                    </button>
+                </div>
+                <div class="grid grid-cols-2 gap-3 text-sm">
+                    <div>
+                        <span class="font-semibold" style="color: ${config.text_color || defaultConfig.text_color}">Date signature:</span>
+                        <span style="color: ${config.secondary_action_color || defaultConfig.secondary_action_color}"> ${item.date_signature}</span>
+                    </div>
+                    <div>
+                        <span class="font-semibold" style="color: ${config.text_color || defaultConfig.text_color}">Honoraires:</span>
+                        <span style="color: ${config.secondary_action_color || defaultConfig.secondary_action_color}"> ${item.honoraires_ttc}</span>
+                    </div>
+                    <div>
+                        <span class="font-semibold" style="color: ${config.text_color || defaultConfig.text_color}">Charge:</span>
+                        <span style="color: ${config.secondary_action_color || defaultConfig.secondary_action_color}"> ${item.charge}</span>
+                    </div>
+                    <div>
+                        <span class="font-semibold" style="color: ${config.text_color || defaultConfig.text_color}">N° Mandat:</span>
+                        <span style="color: ${config.secondary_action_color || defaultConfig.secondary_action_color}"> ${item.numero_mandat}</span>
+                    </div>
+                </div>
+            `;
+            
+            return div;
+        }
+
+        async function deleteSubmission(backendId) {
+            const items = await getCurrentData();
+            const itemToDelete = items.find(item => item.__backendId === backendId);
+            
+            if (!itemToDelete) return;
+
+            const result = await window.dataSdk.delete(itemToDelete);
+            
+            if (!result.isOk) {
+                showError('Erreur lors de la suppression. Veuillez réessayer.');
+            }
+        }
+
+        async function getCurrentData() {
+            return new Promise(resolve => {
+                const handler = {
+                    onDataChanged(data) {
+                        resolve(data);
+                    }
+                };
+                window.dataSdk.init(handler);
+            });
+        }
+
+        function showSuccess() {
+            const successMsg = document.getElementById('success-message');
+            const errorMsg = document.getElementById('error-message');
+            errorMsg.classList.add('hidden');
+            successMsg.classList.remove('hidden');
+            setTimeout(() => {
+                successMsg.classList.add('hidden');
+            }, 5000);
+        }
+
+        function showError(message) {
+            const successMsg = document.getElementById('success-message');
+            const errorMsg = document.getElementById('error-message');
+            const errorText = document.getElementById('error-text');
+            successMsg.classList.add('hidden');
+            errorText.textContent = message;
+            errorMsg.classList.remove('hidden');
+            setTimeout(() => {
+                errorMsg.classList.add('hidden');
+            }, 5000);
+        }
+
+        document.getElementById('demande-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (currentRecordCount >= 999) {
+                showError('Limite maximale de 999 demandes atteinte. Veuillez supprimer des demandes existantes.');
+                return;
+            }
+
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Envoi en cours...';
+
+            const formData = {
+                id: `demande-${Date.now()}`,
+                nom_mandataire: document.getElementById('nom-mandataire').value,
+                date_signature: document.getElementById('date-signature').value,
+                honoraires_ttc: document.getElementById('honoraires-ttc').value,
+                charge: document.querySelector('input[name="charge"]:checked').value,
+                designation_bien: document.getElementById('designation-bien').value,
+                numero_mandat: document.getElementById('numero-mandat').value,
+                nom_vendeurs: document.getElementById('nom-vendeurs').value,
+                nom_acquereurs: document.getElementById('nom-acquereurs').value,
+                nom_notaire: document.getElementById('nom-notaire').value,
+                createdAt: new Date().toISOString()
+            };
+
+            // Enregistrer dans la base de données
+            const result = await window.dataSdk.create(formData);
+
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Soumettre la demande';
+
+            if (result.isOk) {
+                // Préparer l'email
+                const emailAddress = config.email_label || defaultConfig.email_label;
+                const subject = encodeURIComponent('Demande de facture - Acte authentique');
+                
+                const emailBody = `
+Demande de facture pour l'acte authentique
+
+1. Nom et prénom du mandataire :
+${formData.nom_mandataire}
+
+2. Date de signature de l'acte authentique :
+${formData.date_signature}
+
+3. Honoraires TTC :
+${formData.honoraires_ttc}
+
+4. Charge :
+${formData.charge}
+
+5. Désignation et adresse du bien :
+${formData.designation_bien}
+
+6. Numéro du mandat :
+${formData.numero_mandat}
+
+7. Nom et adresse des vendeurs :
+${formData.nom_vendeurs}
+
+8. Nom et adresse des acquéreurs :
+${formData.nom_acquereurs}
+
+9. Nom et adresse mail du notaire rédacteur de l'acte authentique :
+${formData.nom_notaire}
+
+---
+Demande soumise le ${new Date(formData.createdAt).toLocaleString('fr-FR')}
+                `.trim();
+
+                const mailtoLink = `mailto:${emailAddress}?subject=${subject}&body=${encodeURIComponent(emailBody)}`;
+                
+                // Ouvrir le client email
+                window.open(mailtoLink, '_blank');
+                
+                showSuccess();
+                e.target.reset();
+            } else {
+                showError('Erreur lors de la soumission. Veuillez réessayer.');
+            }
+        });
+
+        async function onConfigChange(newConfig) {
+            document.body.style.background = `linear-gradient(to bottom right, ${newConfig.background_color || defaultConfig.background_color}, #dbeafe)`;
+            
+            const surfaces = document.querySelectorAll('.bg-white');
+            surfaces.forEach(el => {
+                el.style.backgroundColor = newConfig.surface_color || defaultConfig.surface_color;
+            });
+
+            document.getElementById('form-title').textContent = newConfig.form_title || defaultConfig.form_title;
+            document.getElementById('company-name').textContent = newConfig.company_name || defaultConfig.company_name;
+            document.getElementById('email-label').textContent = newConfig.email_label || defaultConfig.email_label;
+
+            const customFont = newConfig.font_family || defaultConfig.font_family;
+            const baseFontStack = 'Tahoma, Geneva, Verdana, sans-serif';
+            document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
+
+            const baseSize = newConfig.font_size || defaultConfig.font_size;
+            document.getElementById('form-title').style.fontSize = `${baseSize * 1.875}px`;
+            document.querySelectorAll('h2').forEach(el => {
+                el.style.fontSize = `${baseSize * 1.5}px`;
+            });
+            document.body.style.fontSize = `${baseSize}px`;
+            document.querySelectorAll('.text-sm').forEach(el => {
+                el.style.fontSize = `${baseSize * 0.875}px`;
+            });
+
+            const textElements = document.querySelectorAll('h1, h2, h3, label, p, span');
+            textElements.forEach(el => {
+                if (!el.classList.contains('text-blue-600') && !el.classList.contains('text-green-800') && 
+                    !el.classList.contains('text-red-800') && !el.classList.contains('text-slate-500')) {
+                    el.style.color = newConfig.text_color || defaultConfig.text_color;
+                }
+            });
+
+            const primaryBtn = document.getElementById('submit-btn');
+            primaryBtn.style.backgroundColor = newConfig.primary_action_color || defaultConfig.primary_action_color;
+            primaryBtn.onmouseover = () => {
+                const color = newConfig.primary_action_color || defaultConfig.primary_action_color;
+                primaryBtn.style.backgroundColor = adjustBrightness(color, -20);
+            };
+            primaryBtn.onmouseout = () => {
+                primaryBtn.style.backgroundColor = newConfig.primary_action_color || defaultConfig.primary_action_color;
+            };
+        }
+
+        function adjustBrightness(hex, percent) {
+            const num = parseInt(hex.replace('#', ''), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = (num >> 16) + amt;
+            const G = (num >> 8 & 0x00FF) + amt;
+            const B = (num & 0x0000FF) + amt;
+            return '#' + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 +
+                (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
+                (B < 255 ? B < 1 ? 0 : B : 255))
+                .toString(16).slice(1);
+        }
+
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                onConfigChange,
+                mapToCapabilities: (cfg) => ({
+                    recolorables: [
+                        {
+                            get: () => cfg.background_color || defaultConfig.background_color,
+                            set: (value) => {
+                                cfg.background_color = value;
+                                window.elementSdk.setConfig({ background_color: value });
+                            }
+                        },
+                        {
+                            get: () => cfg.surface_color || defaultConfig.surface_color,
+                            set: (value) => {
+                                cfg.surface_color = value;
+                                window.elementSdk.setConfig({ surface_color: value });
+                            }
+                        },
+                        {
+                            get: () => cfg.text_color || defaultConfig.text_color,
+                            set: (value) => {
+                                cfg.text_color = value;
+                                window.elementSdk.setConfig({ text_color: value });
+                            }
+                        },
+                        {
+                            get: () => cfg.primary_action_color || defaultConfig.primary_action_color,
+                            set: (value) => {
+                                cfg.primary_action_color = value;
+                                window.elementSdk.setConfig({ primary_action_color: value });
+                            }
+                        },
+                        {
+                            get: () => cfg.secondary_action_color || defaultConfig.secondary_action_color,
+                            set: (value) => {
+                                cfg.secondary_action_color = value;
+                                window.elementSdk.setConfig({ secondary_action_color: value });
+                            }
+                        }
+                    ],
+                    borderables: [],
+                    fontEditable: {
+                        get: () => cfg.font_family || defaultConfig.font_family,
+                        set: (value) => {
+                            cfg.font_family = value;
+                            window.elementSdk.setConfig({ font_family: value });
+                        }
+                    },
+                    fontSizeable: {
+                        get: () => cfg.font_size || defaultConfig.font_size,
+                        set: (value) => {
+                            cfg.font_size = value;
+                            window.elementSdk.setConfig({ font_size: value });
+                        }
+                    }
+                }),
+                mapToEditPanelValues: (cfg) => new Map([
+                    ["form_title", cfg.form_title || defaultConfig.form_title],
+                    ["company_name", cfg.company_name || defaultConfig.company_name],
+                    ["email_label", cfg.email_label || defaultConfig.email_label]
+                ])
+            });
+
+            config = window.elementSdk.config;
+        }
+
+        if (window.dataSdk) {
+            window.dataSdk.init(dataHandler);
+        }
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a1f2878a72ad5ed',t:'MTc2MzcxNzMxOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
