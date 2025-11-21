@@ -255,10 +255,9 @@
             if (result.isOk) {
                 // Préparer l'email
                 const emailAddress = config.email_label || defaultConfig.email_label;
-                const subject = encodeURIComponent('Demande de facture - Acte authentique');
+                const subject = 'Demande de facture - Acte authentique';
                 
-                const emailBody = `
-Demande de facture pour l'acte authentique
+                const emailBody = `Demande de facture pour l'acte authentique
 
 1. Nom et prénom du mandataire :
 ${formData.nom_mandataire}
@@ -288,13 +287,16 @@ ${formData.nom_acquereurs}
 ${formData.nom_notaire}
 
 ---
-Demande soumise le ${new Date(formData.createdAt).toLocaleString('fr-FR')}
-                `.trim();
+Demande soumise le ${new Date(formData.createdAt).toLocaleString('fr-FR')}`;
 
-                const mailtoLink = `mailto:${emailAddress}?subject=${subject}&body=${encodeURIComponent(emailBody)}`;
-                
-                // Ouvrir le client email
-                window.open(mailtoLink, '_blank');
+                // Créer un lien mailto et le déclencher
+                const mailtoLink = document.createElement('a');
+                mailtoLink.href = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+                mailtoLink.target = '_blank';
+                mailtoLink.rel = 'noopener noreferrer';
+                document.body.appendChild(mailtoLink);
+                mailtoLink.click();
+                document.body.removeChild(mailtoLink);
                 
                 showSuccess();
                 e.target.reset();
@@ -432,5 +434,5 @@ Demande soumise le ${new Date(formData.createdAt).toLocaleString('fr-FR')}
             window.dataSdk.init(dataHandler);
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a1f2878a72ad5ed',t:'MTc2MzcxNzMxOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a1f3b6f548f6ee4',t:'MTc2MzcxODA5NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
