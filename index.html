@@ -16,7 +16,7 @@
   <style>@view-transition { navigation: auto; }</style>
  </head>
  <body class="min-h-full bg-gradient-to-br from-slate-50 to-blue-50 p-6"><!-- Logo fixe en haut à gauche -->
-  <div style="position: fixed; top: 20px; left: 20px; z-index: 1000; background-color: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"><img src="logomci.png" alt="Logo MCI" style="width: 80px; height: 80px; display: block;" onerror="this.style.display='none'; this.alt='Logo non disponible';">
+  <div style="position: fixed; top: 20px; left: 20px; z-index: 1000;"><img src="logomci.png" alt="Logo MCI" style="width: 120px; height: 120px; display: block;" onerror="this.style.display='none'; this.alt='Logo non disponible';">
   </div>
   <div class="max-w-4xl mx-auto"><!-- Header -->
    <div class="bg-white rounded-lg shadow-lg p-8 mb-6">
@@ -514,6 +514,11 @@
         if (window.dataSdk) {
             window.dataSdk.init(dataHandler);
         }
+
+        // Effacer tous les champs du formulaire au chargement de la page
+        window.addEventListener('load', function() {
+            document.getElementById('demande-form').reset();
+        });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a37cd5c24336ee4',t:'MTc2Mzk3NTczMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-</html>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a37d24313086ee4',t:'MTc2Mzk3NTkzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>import
