@@ -15,7 +15,9 @@
     </style>
   <style>@view-transition { navigation: auto; }</style>
  </head>
- <body class="min-h-full bg-gradient-to-br from-slate-50 to-blue-50 p-6">
+ <body class="min-h-full bg-gradient-to-br from-slate-50 to-blue-50 p-6"><!-- Logo fixe en haut à gauche -->
+  <div style="position: fixed; top: 20px; left: 20px; z-index: 1000; background-color: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"><img src="logomci.png" alt="Logo MCI" style="width: 80px; height: 80px; display: block;" onerror="this.style.display='none'; this.alt='Logo non disponible';">
+  </div>
   <div class="max-w-4xl mx-auto"><!-- Header -->
    <div class="bg-white rounded-lg shadow-lg p-8 mb-6">
     <h1 id="form-title" class="text-3xl font-bold text-slate-800 mb-4">Demande de facture de vente pour l'acte authentique</h1>
@@ -23,7 +25,7 @@
      <p class="text-sm text-slate-700 leading-relaxed">Dans le cadre de la préparation de la signature de l'acte authentique relatif à votre prochaine transaction, il est impératif de compléter avec exactitude l'intégralité du formulaire ci-dessous.</p>
     </div>
     <div class="bg-amber-50 border-l-4 border-amber-500 p-4">
-     <p class="text-sm font-semibold text-slate-800 mb-2">⚠����� Informations importantes :</p>
+     <p class="text-sm font-semibold text-slate-800 mb-2">⚠ Informations importantes :</p>
      <ul class="text-sm text-slate-700 space-y-1 ml-4 list-disc">
       <li>Après soumission, vous recevrez la facture notaire officielle et le RIB signé de <span id="company-name">MEILLEUR CONSEIL IMMO</span></li>
       <li>Ces documents doivent être remis obligatoirement au notaire lors de l'acte authentique</li>
@@ -58,7 +60,7 @@
      </div><!-- Submit Button -->
      <div class="pt-6 border-t border-slate-200">
       <div class="bg-slate-50 rounded-lg p-4 mb-4">
-       <p class="text-sm text-slate-700 text-center">📧 À transmettre par mail : <span id="email-label" class="font-semibold text-blue-600">admin@meilleurconseil-immo.com</span></p>
+       <p class="text-sm text-slate-700 text-center">�� À transmettre par mail : <span id="email-label" class="font-semibold text-blue-600">admin@meilleurconseil-immo.com</span></p>
       </div><button type="button" id="print-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-lg transition-all shadow-lg hover:shadow-xl" onclick="printForm()"> 🖨️ Générer le PDF / Imprimer </button>
       <div id="success-message" class="hidden mt-4 bg-green-50 border-l-4 border-green-500 p-4 rounded">
        <p class="text-green-800 font-semibold">✓ Demande soumise avec succès !</p>
@@ -70,12 +72,6 @@
       </div>
      </div>
     </form>
-   </div><!-- Submissions List -->
-   <div class="mt-6 bg-white rounded-lg shadow-lg p-8">
-    <h2 class="text-2xl font-bold text-slate-800 mb-4">Demandes enregistrées</h2>
-    <div id="submissions-list" class="space-y-4">
-     <p class="text-slate-500 text-center py-8">Aucune demande enregistrée</p>
-    </div>
    </div>
   </div>
   <script>
@@ -183,7 +179,7 @@
             const result = await window.dataSdk.delete(itemToDelete);
             
             if (!result.isOk) {
-                showError('Erreur lors de la suppression. Veuillez réessayer.');
+                showError('Erreur lors de la suppression. Veuillez r��essayer.');
             }
         }
 
@@ -519,5 +515,5 @@
             window.dataSdk.init(dataHandler);
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a379bcc520c02cf',t:'MTc2Mzk3MzcwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a37cd5c24336ee4',t:'MTc2Mzk3NTczMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
