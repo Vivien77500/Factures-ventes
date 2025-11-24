@@ -59,9 +59,7 @@
      <div class="pt-6 border-t border-slate-200">
       <div class="bg-slate-50 rounded-lg p-4 mb-4">
        <p class="text-sm text-slate-700 text-center">📧 À transmettre par mail : <span id="email-label" class="font-semibold text-blue-600">admin@meilleurconseil-immo.com</span></p>
-      </div>
-      <div class="flex gap-4"><button type="submit" id="submit-btn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-lg transition-all shadow-lg hover:shadow-xl"> 📝 Enregistrer la demande </button> <button type="button" id="print-btn" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-6 rounded-lg transition-all shadow-lg hover:shadow-xl" onclick="printForm()"> 🖨️ Imprimer / PDF </button>
-      </div>
+      </div><button type="button" id="print-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-lg transition-all shadow-lg hover:shadow-xl" onclick="printForm()"> 🖨️ Générer le PDF / Imprimer </button>
       <div id="success-message" class="hidden mt-4 bg-green-50 border-l-4 border-green-500 p-4 rounded">
        <p class="text-green-800 font-semibold">✓ Demande soumise avec succès !</p>
        <p class="text-sm text-green-700 mt-1">Votre demande a été enregistrée. Vous recevrez les documents nécessaires par email.</p>
@@ -256,59 +254,62 @@
                     <style>
                         body {
                             font-family: Arial, sans-serif;
-                            padding: 40px;
+                            padding: 20px;
                             color: #333;
-                            line-height: 1.6;
+                            line-height: 1.4;
+                            font-size: 11px;
                         }
                         .header {
                             text-align: center;
-                            margin-bottom: 30px;
-                            border-bottom: 3px solid #2563eb;
-                            padding-bottom: 20px;
+                            margin-bottom: 15px;
+                            border-bottom: 2px solid #2563eb;
+                            padding-bottom: 10px;
                         }
                         h1 {
                             color: #1e293b;
-                            font-size: 24px;
-                            margin-bottom: 10px;
+                            font-size: 16px;
+                            margin-bottom: 5px;
                         }
                         .company {
                             color: #2563eb;
-                            font-size: 18px;
+                            font-size: 13px;
                             font-weight: bold;
                         }
                         .section {
-                            margin-bottom: 25px;
+                            margin-bottom: 12px;
                             page-break-inside: avoid;
                         }
                         .label {
                             font-weight: bold;
                             color: #1e293b;
-                            margin-bottom: 5px;
+                            margin-bottom: 3px;
+                            font-size: 10px;
                         }
                         .value {
                             color: #475569;
-                            padding: 10px;
+                            padding: 6px;
                             background-color: #f8fafc;
-                            border-left: 3px solid #2563eb;
-                            margin-bottom: 15px;
+                            border-left: 2px solid #2563eb;
+                            margin-bottom: 8px;
+                            font-size: 10px;
                         }
                         .footer {
-                            margin-top: 40px;
-                            padding-top: 20px;
-                            border-top: 2px solid #e2e8f0;
+                            margin-top: 20px;
+                            padding-top: 10px;
+                            border-top: 1px solid #e2e8f0;
                             text-align: center;
                             color: #64748b;
-                            font-size: 12px;
+                            font-size: 9px;
                         }
                         .date-print {
                             text-align: right;
                             color: #64748b;
-                            font-size: 12px;
-                            margin-bottom: 20px;
+                            font-size: 9px;
+                            margin-bottom: 10px;
                         }
                         @media print {
                             body {
-                                padding: 20px;
+                                padding: 15px;
                             }
                         }
                     </style>
@@ -387,90 +388,7 @@
             };
         }
 
-        document.getElementById('demande-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            if (currentRecordCount >= 999) {
-                showError('Limite maximale de 999 demandes atteinte. Veuillez supprimer des demandes existantes.');
-                return;
-            }
 
-            const submitBtn = document.getElementById('submit-btn');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Envoi en cours...';
-
-            const formData = {
-                id: `demande-${Date.now()}`,
-                nom_mandataire: document.getElementById('nom-mandataire').value,
-                date_signature: document.getElementById('date-signature').value,
-                honoraires_ttc: document.getElementById('honoraires-ttc').value,
-                charge: document.querySelector('input[name="charge"]:checked').value,
-                designation_bien: document.getElementById('designation-bien').value,
-                numero_mandat: document.getElementById('numero-mandat').value,
-                nom_vendeurs: document.getElementById('nom-vendeurs').value,
-                nom_acquereurs: document.getElementById('nom-acquereurs').value,
-                nom_notaire: document.getElementById('nom-notaire').value,
-                createdAt: new Date().toISOString()
-            };
-
-            // Enregistrer dans la base de données
-            const result = await window.dataSdk.create(formData);
-
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Soumettre la demande';
-
-            if (result.isOk) {
-                // Préparer l'email
-                const emailAddress = config.email_label || defaultConfig.email_label;
-                const subject = 'Demande de facture - Acte authentique';
-                
-                const emailBody = `Demande de facture pour l'acte authentique
-
-1. Nom et prénom du mandataire :
-${formData.nom_mandataire}
-
-2. Date de signature de l'acte authentique :
-${formData.date_signature}
-
-3. Honoraires TTC :
-${formData.honoraires_ttc}
-
-4. Charge :
-${formData.charge}
-
-5. Désignation et adresse du bien :
-${formData.designation_bien}
-
-6. Numéro du mandat :
-${formData.numero_mandat}
-
-7. Nom et adresse des vendeurs :
-${formData.nom_vendeurs}
-
-8. Nom et adresse des acquéreurs :
-${formData.nom_acquereurs}
-
-9. Nom et adresse mail du notaire rédacteur de l'acte authentique :
-${formData.nom_notaire}
-
----
-Demande soumise le ${new Date(formData.createdAt).toLocaleString('fr-FR')}`;
-
-                // Créer un lien mailto et le déclencher
-                const mailtoLink = document.createElement('a');
-                mailtoLink.href = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
-                mailtoLink.target = '_blank';
-                mailtoLink.rel = 'noopener noreferrer';
-                document.body.appendChild(mailtoLink);
-                mailtoLink.click();
-                document.body.removeChild(mailtoLink);
-                
-                showSuccess();
-                e.target.reset();
-            } else {
-                showError('Erreur lors de la soumission. Veuillez réessayer.');
-            }
-        });
 
         async function onConfigChange(newConfig) {
             document.body.style.background = `linear-gradient(to bottom right, ${newConfig.background_color || defaultConfig.background_color}, #dbeafe)`;
@@ -506,14 +424,14 @@ Demande soumise le ${new Date(formData.createdAt).toLocaleString('fr-FR')}`;
                 }
             });
 
-            const primaryBtn = document.getElementById('submit-btn');
-            primaryBtn.style.backgroundColor = newConfig.primary_action_color || defaultConfig.primary_action_color;
-            primaryBtn.onmouseover = () => {
+            const printBtn = document.getElementById('print-btn');
+            printBtn.style.backgroundColor = newConfig.primary_action_color || defaultConfig.primary_action_color;
+            printBtn.onmouseover = () => {
                 const color = newConfig.primary_action_color || defaultConfig.primary_action_color;
-                primaryBtn.style.backgroundColor = adjustBrightness(color, -20);
+                printBtn.style.backgroundColor = adjustBrightness(color, -20);
             };
-            primaryBtn.onmouseout = () => {
-                primaryBtn.style.backgroundColor = newConfig.primary_action_color || defaultConfig.primary_action_color;
+            printBtn.onmouseout = () => {
+                printBtn.style.backgroundColor = newConfig.primary_action_color || defaultConfig.primary_action_color;
             };
         }
 
@@ -601,5 +519,5 @@ Demande soumise le ${new Date(formData.createdAt).toLocaleString('fr-FR')}`;
             window.dataSdk.init(dataHandler);
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a3790656404d093',t:'MTc2Mzk3MzIzMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a379bcc520c02cf',t:'MTc2Mzk3MzcwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
