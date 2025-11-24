@@ -58,8 +58,10 @@
      </div><!-- Submit Button -->
      <div class="pt-6 border-t border-slate-200">
       <div class="bg-slate-50 rounded-lg p-4 mb-4">
-       <p class="text-sm text-slate-700 text-center">📧 À transmettre par mail : <span id="email-label" class="font-semibold text-blue-600">v.gendarme@meilleurconseil-immo.com</span></p>
-      </div><button type="submit" id="submit-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-lg transition-all shadow-lg hover:shadow-xl"> Soumettre la demande </button>
+       <p class="text-sm text-slate-700 text-center">📧 À transmettre par mail : <span id="email-label" class="font-semibold text-blue-600">admin@meilleurconseil-immo.com</span></p>
+      </div>
+      <div class="flex gap-4"><button type="submit" id="submit-btn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-lg transition-all shadow-lg hover:shadow-xl"> 📝 Enregistrer la demande </button> <button type="button" id="print-btn" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-6 rounded-lg transition-all shadow-lg hover:shadow-xl" onclick="printForm()"> 🖨️ Imprimer / PDF </button>
+      </div>
       <div id="success-message" class="hidden mt-4 bg-green-50 border-l-4 border-green-500 p-4 rounded">
        <p class="text-green-800 font-semibold">✓ Demande soumise avec succès !</p>
        <p class="text-sm text-green-700 mt-1">Votre demande a été enregistrée. Vous recevrez les documents nécessaires par email.</p>
@@ -82,7 +84,7 @@
         const defaultConfig = {
             form_title: "Demande de facture de vente pour l'acte authentique",
             company_name: "MEILLEUR CONSEIL IMMO",
-            email_label: "v.gendarme@meilleurconseil-immo.com",
+            email_label: "admin@meilleurconseil-immo.com",
             background_color: "#f8fafc",
             surface_color: "#ffffff",
             text_color: "#1e293b",
@@ -218,6 +220,171 @@
             setTimeout(() => {
                 errorMsg.classList.add('hidden');
             }, 5000);
+        }
+
+        function printForm() {
+            const form = document.getElementById('demande-form');
+            
+            // Vérifier si le formulaire est rempli
+            if (!form.checkValidity()) {
+                showError('Veuillez remplir tous les champs obligatoires avant d\'imprimer.');
+                form.reportValidity();
+                return;
+            }
+
+            // Récupérer les données du formulaire
+            const formData = {
+                nom_mandataire: document.getElementById('nom-mandataire').value,
+                date_signature: document.getElementById('date-signature').value,
+                honoraires_ttc: document.getElementById('honoraires-ttc').value,
+                charge: document.querySelector('input[name="charge"]:checked').value,
+                designation_bien: document.getElementById('designation-bien').value,
+                numero_mandat: document.getElementById('numero-mandat').value,
+                nom_vendeurs: document.getElementById('nom-vendeurs').value,
+                nom_acquereurs: document.getElementById('nom-acquereurs').value,
+                nom_notaire: document.getElementById('nom-notaire').value
+            };
+
+            // Créer une fenêtre d'impression avec le contenu formaté
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html lang="fr">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Demande de facture - Acte authentique</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            padding: 40px;
+                            color: #333;
+                            line-height: 1.6;
+                        }
+                        .header {
+                            text-align: center;
+                            margin-bottom: 30px;
+                            border-bottom: 3px solid #2563eb;
+                            padding-bottom: 20px;
+                        }
+                        h1 {
+                            color: #1e293b;
+                            font-size: 24px;
+                            margin-bottom: 10px;
+                        }
+                        .company {
+                            color: #2563eb;
+                            font-size: 18px;
+                            font-weight: bold;
+                        }
+                        .section {
+                            margin-bottom: 25px;
+                            page-break-inside: avoid;
+                        }
+                        .label {
+                            font-weight: bold;
+                            color: #1e293b;
+                            margin-bottom: 5px;
+                        }
+                        .value {
+                            color: #475569;
+                            padding: 10px;
+                            background-color: #f8fafc;
+                            border-left: 3px solid #2563eb;
+                            margin-bottom: 15px;
+                        }
+                        .footer {
+                            margin-top: 40px;
+                            padding-top: 20px;
+                            border-top: 2px solid #e2e8f0;
+                            text-align: center;
+                            color: #64748b;
+                            font-size: 12px;
+                        }
+                        .date-print {
+                            text-align: right;
+                            color: #64748b;
+                            font-size: 12px;
+                            margin-bottom: 20px;
+                        }
+                        @media print {
+                            body {
+                                padding: 20px;
+                            }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="date-print">Imprimé le ${new Date().toLocaleDateString('fr-FR', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    })}</div>
+                    
+                    <div class="header">
+                        <h1>Demande de facture de vente pour l'acte authentique</h1>
+                        <div class="company">${config.company_name || defaultConfig.company_name}</div>
+                    </div>
+
+                    <div class="section">
+                        <div class="label">1. Nom et prénom du mandataire</div>
+                        <div class="value">${formData.nom_mandataire}</div>
+                    </div>
+
+                    <div class="section">
+                        <div class="label">2. Date de signature de l'acte authentique</div>
+                        <div class="value">${formData.date_signature}</div>
+                    </div>
+
+                    <div class="section">
+                        <div class="label">3. Honoraires TTC</div>
+                        <div class="value">${formData.honoraires_ttc}</div>
+                    </div>
+
+                    <div class="section">
+                        <div class="label">4. Charge</div>
+                        <div class="value">${formData.charge}</div>
+                    </div>
+
+                    <div class="section">
+                        <div class="label">5. Désignation et adresse du bien</div>
+                        <div class="value">${formData.designation_bien}</div>
+                    </div>
+
+                    <div class="section">
+                        <div class="label">6. Numéro du mandat</div>
+                        <div class="value">${formData.numero_mandat}</div>
+                    </div>
+
+                    <div class="section">
+                        <div class="label">7. Nom et adresse des vendeurs</div>
+                        <div class="value">${formData.nom_vendeurs}</div>
+                    </div>
+
+                    <div class="section">
+                        <div class="label">8. Nom et adresse des acquéreurs</div>
+                        <div class="value">${formData.nom_acquereurs}</div>
+                    </div>
+
+                    <div class="section">
+                        <div class="label">9. Nom et adresse mail du notaire rédacteur de l'acte authentique</div>
+                        <div class="value">${formData.nom_notaire}</div>
+                    </div>
+
+                    <div class="footer">
+                        <p>Document à transmettre à : ${config.email_label || defaultConfig.email_label}</p>
+                        <p>Ce document doit être remis au notaire lors de l'acte authentique</p>
+                    </div>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            
+            // Attendre que le contenu soit chargé puis lancer l'impression
+            printWindow.onload = function() {
+                printWindow.print();
+            };
         }
 
         document.getElementById('demande-form').addEventListener('submit', async (e) => {
@@ -434,5 +601,5 @@ Demande soumise le ${new Date(formData.createdAt).toLocaleString('fr-FR')}`;
             window.dataSdk.init(dataHandler);
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a1f3b6f548f6ee4',t:'MTc2MzcxODA5NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a3790656404d093',t:'MTc2Mzk3MzIzMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
